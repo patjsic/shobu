@@ -17,6 +17,7 @@ class Quad:
         self.piece1 = "b"
         self.piece2 = "w"
         self.nullpiece = "~"
+        self.aggresive = False
     
     def __str__(self) -> str:
         ret_str = "\n"
@@ -32,7 +33,7 @@ class Quad:
         """
         return self.quad[row][col]
     
-    def set(self, row: int, col: int, value: str) -> bool:
+    def set_piece(self, row: int, col: int, value: str) -> bool:
         """
         Set piece on quad. Return True if successful, else return False.
         """
@@ -66,6 +67,7 @@ class Quad:
         diff = [abs(end[1] - start[1]), abs(end[0] - start[0])]
         if max(diff[0], diff[1]) <= 2:
             if diff[0] == 0 or diff[1] == 0: # check straight line
+
                 return True
             elif (diff[1] / diff[0]) <= 1: # check diagonal
                 return True
@@ -89,8 +91,8 @@ class Quad:
             #TODO: Check moves only max 2 consecutive spaces
             #TODO: Check that pieces do not intersect or 'push' other pieces on passive move
             #TODO: Implement aggresive move
-            self.set(start[0], start[1], self.nullpiece) # we know this is always filled
-            self.set(end[0], end[1], piece)
+            self.set_piece(start[0], start[1], self.nullpiece) # we know this is always filled
+            self.set_piece(end[0], end[1], piece)
             return True
         else:
             # return False
@@ -103,23 +105,10 @@ class Board:
         self.n = num_boards
     
 if __name__=="__main__":
-    test = Quad()
-    test.reset_quad()
-    print(test)
-    test.move_piece((3, 0), (2, 1), True)
-    print(test)
-    # test.move_piece((0,0), (1, 2), False) # This is an invalid move!
-    test.move_piece((0, 0), (2, 0), False)
-    test.move_piece((0, 0), (2, 0), False)
-    test.move_piece((0, 0), (2, 0), False)
-    print(test)
-    test.move_piece((3, 1), (1, 3), True) #TODO: This fails but should be a valid move...
-    print(test)
-    # test.move_piece((1, 3), (3, 0), True)  # This should fail
-    test.move_piece((0, 0), (2, 0), False)
-    test.move_piece((0, 0), (5, 0), False) #This doesn't fail because there is no piece being moved.
-    print(test)
-    test.move_piece((3, 3), (0, 0), True) # This should fail since it moves diagonal > 2 spaces
-    print(test)
-    test.reset_quad()
-    print(test)
+    def test_push_quad():
+        q = Quad()
+        q.reset_quad()
+        q.move_piece((0, 0), (1, 1), True)
+        q.move_piece((3, 0), (1, 0))
+        q.move_piece((3, 1), (1, 1)) #this should fail, since 
+
